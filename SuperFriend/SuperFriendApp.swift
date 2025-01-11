@@ -12,7 +12,6 @@ import SwiftData
 struct SuperFriendApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -25,7 +24,7 @@ struct SuperFriendApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Text("Foo")
         }
         .modelContainer(sharedModelContainer)
     }
