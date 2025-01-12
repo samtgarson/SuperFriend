@@ -10,6 +10,7 @@ import LucideIcons
 
 struct PrimaryButtonStyle: ButtonStyle {
     var style: RoundedStyle = .filled
+
     @Environment(\.isEnabled) var isEnabled
     @Environment(\.buttonIsLoading) var isLoading
     @Environment(\.buttonIcon) var icon
@@ -17,25 +18,25 @@ struct PrimaryButtonStyle: ButtonStyle {
     @State private var showLoading: Bool = false
 
     func makeBody(configuration: Configuration) -> some View {
-        HStack(spacing: 10) {
+        HStack(spacing: .xs) {
             if showLoading { ProgressView().controlSize(.small) } else
             if let icon = icon { Image(systemName: icon) }
             configuration.label
         }
         .rounded(style)
         .opacity(opacity(isPressed: configuration.isPressed))
-        .animation(.easeOut(duration: 0.1), value: configuration.isPressed)
+        .animation(.easeOut(duration: .transitionFast), value: configuration.isPressed)
         .onChange(of: isLoading, initial: true) {
             withAnimation(.easeOut(duration: 0.1)) { showLoading = isLoading }
         }
     }
 
-    private func opacity(isPressed: Bool) -> CGFloat {
+    private func opacity(isPressed: Bool) -> Double {
         guard isEnabled && !showLoading else {
-            return 0.5
+            return .opacityFaded
         }
 
-        return isPressed ? 0.7 : 1
+        return isPressed ? .opacitySlightlyFaded : 1
     }
 }
 

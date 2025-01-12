@@ -15,14 +15,14 @@ struct TopNavBar: View {
     @State var showSearch = false
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: .xs) {
             if !showSearch { addButton }
             search
             if !showSearch { settingsButton }
         }
         .padding()
         .onChange(of: searchFocused, initial: false) {
-            withAnimation(.easeOut(duration: 0.2)) { showSearch = searchFocused }
+            withAnimation(.easeOut(duration: .transition)) { showSearch = searchFocused }
         }
     }
 
@@ -41,7 +41,7 @@ struct TopNavBar: View {
 
     private var search: some View {
         HStack {
-            Image(systemName: "magnifyingglass").opacity(showSearch ? 1 : 0.3)
+            Image(systemName: "magnifyingglass").opacity(showSearch ? 1 : .opacityFaded)
             ZStack(alignment: .leading) {
                 TextField(text: $searchText, label: { Text("Search") })
                     .focused($searchFocused)

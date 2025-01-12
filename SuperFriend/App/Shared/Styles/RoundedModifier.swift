@@ -46,9 +46,9 @@ struct RoundedModifier: ViewModifier {
         Group {
             switch style {
             case .filled:
-                Capsule().fill(.foreground.opacity(0.1))
+                Capsule().fill(.foreground.opacity(.opacityVeryFaded))
             case .outlined:
-                Capsule().fill(.background).stroke(.foreground.opacity(0.2), lineWidth: 1)
+                Capsule().fill(.background).stroke(.foreground.opacity(.opacityFaded), lineWidth: 1)
             }
         }
     }
