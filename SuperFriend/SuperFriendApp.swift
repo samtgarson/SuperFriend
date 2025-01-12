@@ -24,7 +24,7 @@ struct SuperFriendApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Text("Foo")
+            FriendListScreen()
         }
         .modelContainer(sharedModelContainer)
     }
