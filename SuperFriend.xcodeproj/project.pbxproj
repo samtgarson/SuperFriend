@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		891AB9BF2D3557F800F5DA82 /* Routing in Frameworks */ = {isa = PBXBuildFile; productRef = 891AB9BE2D3557F800F5DA82 /* Routing */; };
+		89658AB72D4837D3001EE0A1 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 89658AB62D4837D3001EE0A1 /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		89658AB62D4837D3001EE0A1 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		89E7B6492D32F4C200276535 /* SuperFriend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperFriend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -52,6 +54,7 @@
 			children = (
 				89E7B64B2D32F4C200276535 /* SuperFriend */,
 				89E7B64A2D32F4C200276535 /* Products */,
+				89658AB62D4837D3001EE0A1 /* LICENSE */,
 			);
 			sourceTree = "<group>";
 		};
@@ -133,6 +136,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89658AB72D4837D3001EE0A1 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
