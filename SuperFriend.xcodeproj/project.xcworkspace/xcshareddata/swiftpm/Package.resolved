@@ -1,6 +1,15 @@
 {
-  "originHash" : "1fa961aa1dc717cea452f3389668f0f99a254f07e4eb11d190768a53798f744f",
+  "originHash" : "11759c8459646731bc9ee037dc216f9aee551a4728cb922dddc0f02fac7f6d8f",
   "pins" : [
+    {
+      "identity" : "routing",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/obvios/Routing.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ef84e13ceb42335969944a7945f19119ba55f3ce"
+      }
+    },
     {
       "identity" : "swiftlintplugins",
       "kind" : "remoteSourceControl",

@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		891AB9BF2D3557F800F5DA82 /* Routing in Frameworks */ = {isa = PBXBuildFile; productRef = 891AB9BE2D3557F800F5DA82 /* Routing */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		89E7B6492D32F4C200276535 /* SuperFriend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperFriend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				891AB9BF2D3557F800F5DA82 /* Routing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +84,7 @@
 			);
 			name = SuperFriend;
 			packageProductDependencies = (
+				891AB9BE2D3557F800F5DA82 /* Routing */,
 			);
 			productName = SuperFriend;
 			productReference = 89E7B6492D32F4C200276535 /* SuperFriend.app */;
@@ -110,6 +116,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				89E7B65F2D32F97100276535 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+				891AB9BD2D3557F800F5DA82 /* XCRemoteSwiftPackageReference "Routing" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 89E7B64A2D32F4C200276535 /* Products */;
@@ -162,8 +169,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SuperFriend/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = SuperFriend;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSContactsUsageDescription = "SuperFriend needs access to your contacts to make adding friends easier";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -198,8 +204,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SuperFriend/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = SuperFriend;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSContactsUsageDescription = "SuperFriend needs access to your contacts to make adding friends easier";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -364,6 +369,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		891AB9BD2D3557F800F5DA82 /* XCRemoteSwiftPackageReference "Routing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/obvios/Routing.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		89E7B65F2D32F97100276535 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
@@ -375,6 +388,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		891AB9BE2D3557F800F5DA82 /* Routing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 891AB9BD2D3557F800F5DA82 /* XCRemoteSwiftPackageReference "Routing" */;
+			productName = Routing;
+		};
 		89E7B6602D32F9D800276535 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 89E7B65F2D32F97100276535 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import LucideIcons
 
 struct PrimaryButtonStyle: ButtonStyle {
     var style: RoundedStyle = .filled

@@ -36,9 +36,9 @@ struct RoundedModifier: ViewModifier {
     private var height: CGFloat {
         switch controlSize {
         case .small:
-            28
+            .buttonHeightSmall
         default:
-            40
+            .buttonHeight
         }
     }
 
@@ -48,7 +48,7 @@ struct RoundedModifier: ViewModifier {
             case .filled:
                 Capsule().fill(.foreground.opacity(.opacityVeryFaded))
             case .outlined:
-                Capsule().fill(.background).stroke(.foreground.opacity(.opacityFaded), lineWidth: 1)
+                Capsule().fill(.clear).stroke(.foreground.opacity(.opacityFaded), lineWidth: 1)
             }
         }
     }

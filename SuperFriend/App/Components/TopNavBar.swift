@@ -10,7 +10,7 @@ import SwiftUI
 struct TopNavBar: View {
     var onAdd: () -> Void
     var onTapSettings: () -> Void
-    @State var searchText = ""
+    @Binding var searchText: String
     @FocusState private var searchFocused: Bool
     @State var showSearch = false
 
@@ -20,7 +20,7 @@ struct TopNavBar: View {
             search
             if !showSearch { settingsButton }
         }
-        .padding()
+        .padding(.vertical, .xs)
         .onChange(of: searchFocused, initial: false) {
             withAnimation(.easeOut(duration: .transition)) { showSearch = searchFocused }
         }
@@ -61,8 +61,16 @@ struct TopNavBar: View {
 }
 
 #Preview {
-    TopNavBar(
-        onAdd: { debugPrint("Tapped add") },
-        onTapSettings: { debugPrint("Tapped settings") }
-    )
+    @Previewable @State var searchText: String = ""
+
+    VStack {
+        TopNavBar(
+            onAdd: { debugPrint("Tapped add") },
+            onTapSettings: { debugPrint("Tapped settings") },
+            searchText: $searchText
+        )
+        Divider()
+        Spacer()
+    }
+
 }
