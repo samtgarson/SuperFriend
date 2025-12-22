@@ -65,7 +65,7 @@ struct ContactPickerScreen: View {
     private var backButton: some View {
         Button("Back", systemImage: "xmark") { router.dismiss() }
             .font(.caption)
-            .buttonStyle(.secondary)
+            .buttonStyle(.naked)
     }
 }
 

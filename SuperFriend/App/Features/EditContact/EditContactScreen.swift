@@ -31,15 +31,24 @@ struct EditContactScreen: View {
                             Text(choice.label).tag(choice)
                         }
                     }
-                    
                 }
-                AsyncButton(
-                    action: {
-                        try viewModel.complete()
-                        onComplete()
-                    },
-                    label: { Text("Save") }
-                ).buttonStyle(.primary)
+                VStack(spacing: .sm) {
+                    AsyncButton(
+                        action: {
+                            try viewModel.complete()
+                            onComplete()
+                        },
+                        label: { Text("Save") }
+                    ).buttonStyle(.primary)
+                    AsyncButton(
+                        action: {
+                            try viewModel.destroy()
+                            onComplete()
+                        },
+                        label: { Text("Remove \(viewModel.contact.givenName)") },
+                        role: .destructive
+                    ).buttonStyle(.naked)
+                }
             }
             .navigationBarBackButtonHidden()
             .toolbar {

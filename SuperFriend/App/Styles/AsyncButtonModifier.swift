@@ -26,19 +26,28 @@ struct AsyncButton<Label>: View where Label: View {
     @State var loading = false
     var label: Label
     var action: () async throws -> Void
+    var role: ButtonRole? = nil
 
-    public init(action: @escaping () async throws -> Void, @ViewBuilder label: () -> Label) {
+    public init(action: @escaping () async throws -> Void, @ViewBuilder label: () -> Label, role: ButtonRole? = nil) {
         self.label = label()
         self.action = action
+        self.role = role
     }
 
     var body: some View {
-        Button(action: {
-            self.loading = true
-            try? await action()
-            self.loading = false
-        }, label: { label })
-        .with(loading: loading)
+        if let role = role {
+            Button(role: role, action: asyncAction, label: { label })
+                .with(loading: loading)
+        } else {
+            Button(action: asyncAction, label: { label })
+                .with(loading: loading)
+        }
+    }
+
+    private func asyncAction() async {
+        self.loading = true
+        try? await action()
+        self.loading = false
     }
 }
 
@@ -49,5 +58,11 @@ struct AsyncButton<Label>: View where Label: View {
         }, label: {
             Text("Sleep")
         }).buttonStyle(.primary)
+
+        AsyncButton(action: {
+            try? await Task.sleep(nanoseconds: 1000000000)
+        }, label: {
+            Text("Sleep")
+        }, role: .destructive).buttonStyle(.naked)
     }.padding()
 }

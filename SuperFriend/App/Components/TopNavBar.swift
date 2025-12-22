@@ -68,7 +68,7 @@ struct TopNavBar: View {
             onAdd: { debugPrint("Tapped add") },
             onTapSettings: { debugPrint("Tapped settings") },
             searchText: $searchText
-        )
+        ).padding(.horizontal)
         Divider()
         Spacer()
     }

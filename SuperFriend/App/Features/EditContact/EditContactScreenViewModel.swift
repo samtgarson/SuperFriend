@@ -30,7 +30,15 @@ class EditContactScreenViewModel: ObservableObject {
     @MainActor
     func complete() throws {
         friend.period = selectedPeriod
+        if friend.connectionEvents.isEmpty {
+            let event = ConnectionEvent(friend: friend, tookPlaceAt: .now)
+            friend.connectionEvents.append(event)
+        }
         try friendRepo.upsert(friend)
+    }
+
+    @MainActor func destroy() throws {
+        try friendRepo.delete(friend)
     }
 
     private var findExistingPredicate: Predicate<Friend> {
