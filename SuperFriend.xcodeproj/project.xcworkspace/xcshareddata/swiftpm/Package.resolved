@@ -1,13 +1,13 @@
 {
-  "originHash" : "11759c8459646731bc9ee037dc216f9aee551a4728cb922dddc0f02fac7f6d8f",
+  "originHash" : "6123adfdd7401c8bac927a057e8a688b36733a35283e71e2aea8842b73480466",
   "pins" : [
     {
       "identity" : "routing",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/obvios/Routing.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "ef84e13ceb42335969944a7945f19119ba55f3ce"
+        "revision" : "cbb162bcbec7fbc68e2b9652b255cb26f1bf3e9c",
+        "version" : "2.1.0"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SimplyDanny/SwiftLintPlugins",
       "state" : {
-        "revision" : "f9731bef175c3eea3a0ca960f1be78fcc2bc7853",
-        "version" : "0.57.1"
+        "revision" : "ecafb5b056cb7995324f0d310a61f30661d00cad",
+        "version" : "0.62.2"
       }
     }
   ],

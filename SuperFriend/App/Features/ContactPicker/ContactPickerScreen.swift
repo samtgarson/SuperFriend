@@ -17,7 +17,6 @@ struct ContactPickerScreen: View {
     }
 
     var body: some View {
-        NavigationStack {
             ScrollView {
                 LazyVStack(spacing: .sm) {
                     if viewModel.limitedAccess { accessWarning }
@@ -28,19 +27,16 @@ struct ContactPickerScreen: View {
             .searchable(text: $viewModel.searchText)
             .onAppear { UISearchBar.appearance().tintColor = .darkGray }
             .navigationTitle("Add Contact")
-            .navigationBarBackButtonHidden()
-            .toolbar {
-                ToolbarItem { backButton }
-            }
-        }
     }
 
     private var contactList: some View {
         ForEach(viewModel.contacts, id: \.identifier) { contact in
             ContactPickerRow(
                 contact: contact,
-                onComplete: { router.dismiss() }
-            )
+                onComplete: { router.pop() }
+            ).onTapGesture {
+                router.routeTo(.newFriend(contact), via: .sheet)
+            }
         }
     }
 
@@ -63,17 +59,17 @@ struct ContactPickerScreen: View {
     }
 
     private var backButton: some View {
-        Button("Back", systemImage: "xmark") { router.dismiss() }
+        Button("Back", systemImage: "chevron.left") { router.pop() }
             .font(.caption)
             .buttonStyle(.naked)
     }
 }
 
 #Preview {
-    AppRouterView { router in
-        ContactPickerScreen(
-            router: router,
-            repo: PreviewData.contactDataRepo
-        )
-    }
+    @Previewable @State var router: AppRouter = .init(isPresented: .constant(.contactPicker))
+
+    ContactPickerScreen(
+        router: router,
+        repo: PreviewData.contactDataRepo
+    )
 }

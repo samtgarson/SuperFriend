@@ -8,20 +8,17 @@
 import SwiftUI
 import Routing
 
-struct AppRouterView<Content: View>: View {
-    let content: (AppRouter) -> Content
-
-    init(@ViewBuilder _ content: @escaping (AppRouter) -> Content) {
-        self.content = content
-    }
+struct AppRouterView: View {
+    @StateObject var router: AppRouter = .init(isPresented: .constant(.none))
 
     var body: some View {
-        RoutingView(AppRoutes.self) { router in
-            content(router)
+        RoutingView(router) { router in
+            router.start(.friendList)
         }
     }
 }
 
 #Preview {
-    AppRouterView { router in FriendListScreen(router: router) }
+    AppRouterView()
+        .modelContainer(PreviewData.databaseInstance.container)
 }

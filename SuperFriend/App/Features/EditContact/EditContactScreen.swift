@@ -5,41 +5,53 @@
 //  Created by Sam Garson on 16/01/2025.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct EditContactScreen: View {
     var onComplete: () -> Void
     @StateObject var viewModel: EditContactScreenViewModel
 
-    init(friend: Friend, contact: ContactData, onComplete: @escaping () -> Void) {
+    init(
+        friend: Friend,
+        contact: ContactData,
+        onComplete: @escaping () -> Void
+    ) {
         self.onComplete = onComplete
         self._viewModel = StateObject(wrappedValue: .init(contact: contact, friend: friend))
     }
 
+    static func fromContact(
+        contact: ContactData,
+        onComplete: @escaping () -> Void
+    ) -> EditContactScreen {
+        let friend = Friend.fromContactId(contact.identifier)
+        return EditContactScreen(friend: friend, contact: contact, onComplete: onComplete)
+    }
+
     var body: some View {
-        NavigationStack {
-            VStack(spacing: .md) {
-                avatar
-                VStack(spacing: .xs) {
-                    Text(viewModel.fullName).bold().font(.title3)
-                    if !viewModel.orgName.isEmpty {
-                        Text(viewModel.orgName).opacity(.opacityBodyText)
-                    }
-                    Picker("How often do you keep in touch?", selection: $viewModel.selectedPeriod) {
-                        ForEach(viewModel.choices) { choice in
-                            Text(choice.label).tag(choice)
-                        }
+        VStack(spacing: .md) {
+            avatar
+            VStack(spacing: .xs) {
+                Text(viewModel.fullName).bold().font(.title3)
+                if !viewModel.orgName.isEmpty {
+                    Text(viewModel.orgName).opacity(.opacityBodyText)
+                }
+                Picker("How often do you keep in touch?", selection: $viewModel.selectedPeriod) {
+                    ForEach(viewModel.choices) { choice in
+                        Text(choice.label).tag(choice)
                     }
                 }
-                VStack(spacing: .sm) {
-                    AsyncButton(
-                        action: {
-                            try viewModel.complete()
-                            onComplete()
-                        },
-                        label: { Text("Save") }
-                    ).buttonStyle(.primary)
+            }
+            VStack(spacing: .sm) {
+                AsyncButton(
+                    action: {
+                        try viewModel.complete()
+                        onComplete()
+                    },
+                    label: { Text("Save") }
+                ).buttonStyle(.primary)
+                if viewModel.friend.persisted {
                     AsyncButton(
                         action: {
                             try viewModel.destroy()
@@ -50,10 +62,9 @@ struct EditContactScreen: View {
                     ).buttonStyle(.naked)
                 }
             }
-            .navigationBarBackButtonHidden()
-            .toolbar {
-                ToolbarItem { backButton }
-            }
+        }
+        .toolbar {
+            backButton
         }
     }
 
@@ -62,14 +73,16 @@ struct EditContactScreen: View {
     }
 
     private var backButton: some View {
-        Button("Back", systemImage: "xmark") { onComplete() }
+        Button("Back", systemImage: "xmark", role: .close) { onComplete() }
             .font(.caption)
-            .buttonStyle(.secondary)
+            .buttonStyle(.naked)
     }
 
 }
 
 #Preview {
+    @Previewable @State var showBack = false
+    @Previewable @State var showRemove = true
     var contact = ContactData(
         givenName: "Sam",
         familyName: "Garson",
@@ -85,5 +98,7 @@ struct EditContactScreen: View {
             contact: contact,
             onComplete: { print("Completed") }
         )
+        Toggle("Show Back", isOn: $showBack)
+        Toggle("Show Remove", isOn: $showRemove)
     }.modelContainer(container)
 }

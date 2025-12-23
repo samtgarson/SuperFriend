@@ -18,13 +18,13 @@ struct FriendListScreen: View {
     var body: some View {
         VStack(alignment: .leading) {
             TopNavBar(
-                onAdd: { router.routeTo(.contactPicker) },
+                onAdd: { router.routeTo(.contactPicker, via: .push) },
                 onTapSettings: {},
                 searchText: $searchText.animation(.easeOut(duration: .transitionFast))
             )
             FriendList(
                 searchText: $searchText,
-                onSelect: { friend in router.routeTo(.editFriend(friend)) },
+                onSelect: { friend in router.routeTo(.editFriend(friend), via: .sheet) },
                 onRecordConnection: { friend in
                     let event = ConnectionEvent(friend: friend)
                     let repo = ModelRepository<ConnectionEvent>()
@@ -37,6 +37,6 @@ struct FriendListScreen: View {
 }
 
 #Preview {
-    AppRouterView { router in FriendListScreen(router: router) }
+    AppRouterView()
         .modelContainer(Database.testInstance(with: PreviewData.friends).container)
 }

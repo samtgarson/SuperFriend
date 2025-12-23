@@ -12,35 +12,29 @@ struct ContactPickerRow: View {
     var onComplete: () -> Void
 
     var body: some View {
-        NavigationLink(destination: destination) {
-            HStack(spacing: .xs) {
-                Avatar(
-                    imageData: contact.imageData,
-                    givenName: contact.givenName,
-                    familyName: contact.familyName,
-                    size: .buttonHeight
-                )
-                VStack(alignment: .leading) {
-                    Text("\(contact.givenName) \(contact.familyName)").bold()
-                    if !contact.organizationName.isEmpty {
-                        Text(contact.organizationName).opacity(.opacitySlightlyFaded)
-                    }
+        HStack(spacing: .xs) {
+            Avatar(
+                imageData: contact.imageData,
+                givenName: contact.givenName,
+                familyName: contact.familyName,
+                size: .buttonHeight
+            )
+            VStack(alignment: .leading) {
+                Text("\(contact.givenName) \(contact.familyName)").bold()
+                if !contact.organizationName.isEmpty {
+                    Text(contact.organizationName).opacity(.opacitySlightlyFaded)
                 }
-                Spacer()
-                Image(systemName: "plus")
             }
+            Spacer()
+            Image(systemName: "plus")
         }.foregroundStyle(.foreground)
-    }
-
-    private var destination: some View {
-        EditContactScreen(
-            friend: Friend(contactIdentifier: contact.identifier),
-            contact: contact,
-            onComplete: onComplete
-        )
     }
 }
 
-// #Preview {
-//     ContactPickerRow()
-// }
+ #Preview {
+     ContactPickerRow(
+        contact: PreviewData.contactData.first!,
+        onComplete: { print("completed")
+        }
+    )
+ }

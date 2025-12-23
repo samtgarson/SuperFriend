@@ -21,17 +21,36 @@ final class Friend: Identifiable {
     @Transient
     private var repo = ContactDataRepository()
 
+    @Transient
+    var persisted: Bool = true
+
     init(
         contactIdentifier: String,
         period: Period = .monthly,
+        persisted: Bool = true,
         connectionEvents: [ConnectionEvent] = [],
         repo: ContactDataRepository = ContactDataRepository()
     ) {
         self.createdAt = Date.now
         self.contactIdentifier = contactIdentifier
         self.period = period
+        self.persisted = persisted
         self.connectionEvents = connectionEvents
         self.repo = repo
+    }
+
+    @MainActor static func fromContactId(
+        _ contactId: String,
+        friendRepo: ModelRepository<Friend> = ModelRepository()
+    ) -> Friend {
+        let predicate = #Predicate<Friend> { friend in friend.contactIdentifier == contactId }
+
+        if let found = try? friendRepo.find(with: predicate ) {
+            found.persisted = true
+            return found
+        }
+
+        return Friend(contactIdentifier: contactId, persisted: false)
     }
 
     var contact: ContactData? {

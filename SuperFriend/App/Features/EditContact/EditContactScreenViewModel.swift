@@ -35,16 +35,13 @@ class EditContactScreenViewModel: ObservableObject {
             friend.connectionEvents.append(event)
         }
         try friendRepo.upsert(friend)
+
+        withAnimation {
+            friend.persisted = true
+        }
     }
 
     @MainActor func destroy() throws {
         try friendRepo.delete(friend)
-    }
-
-    private var findExistingPredicate: Predicate<Friend> {
-        let id = contact.identifier
-        return #Predicate { record in
-            record.contactIdentifier == id
-        }
     }
 }
