@@ -20,6 +20,11 @@ struct FriendListScreen: View {
             TopNavBar(
                 onAdd: { router.routeTo(.contactPicker, via: .push) },
                 onTapSettings: {},
+                onSecretGesture: {
+                    #if DEBUG
+                    router.routeTo(.playground, via: .push)
+                    #endif
+                },
                 searchText: $searchText.animation(.easeOut(duration: .transitionFast))
             )
             FriendList(
@@ -31,7 +36,8 @@ struct FriendListScreen: View {
                     try? repo.upsert(event)
                 }
             )
-        }.padding(.horizontal, .xs)
+        }
+        .padding(.horizontal, .xs)
         Spacer()
     }
 }

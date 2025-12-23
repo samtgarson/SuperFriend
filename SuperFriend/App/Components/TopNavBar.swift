@@ -10,6 +10,7 @@ import SwiftUI
 struct TopNavBar: View {
     var onAdd: () -> Void
     var onTapSettings: () -> Void
+    var onSecretGesture: () -> Void
     @Binding var searchText: String
     @FocusState private var searchFocused: Bool
     @State var showSearch = false
@@ -35,8 +36,10 @@ struct TopNavBar: View {
     private var settingsButton: some View {
         Button(action: onTapSettings, label: {
             Image(systemName: "gearshape")
-        }).buttonStyle(.secondary)
+        })
+        .buttonStyle(.secondary)
             .transition(AnyTransition.opacity.combined(with: .move(edge: .trailing)))
+            .onTapGesture(count: 3, perform: onSecretGesture)
     }
 
     private var search: some View {
@@ -67,6 +70,7 @@ struct TopNavBar: View {
         TopNavBar(
             onAdd: { debugPrint("Tapped add") },
             onTapSettings: { debugPrint("Tapped settings") },
+            onSecretGesture: { debugPrint("Secret gesture") },
             searchText: $searchText
         ).padding(.horizontal)
         Divider()

@@ -16,6 +16,9 @@ enum AppRoutes: Routable {
     case contactPicker
     case editFriend(Friend)
     case newFriend(ContactData)
+    #if DEBUG
+    case playground
+    #endif
 
     @ViewBuilder
     func viewToDisplay(router: Router<AppRoutes>) -> some View {
@@ -39,6 +42,10 @@ enum AppRoutes: Routable {
                     Button("Back") { router.dismissChild() }
                 }
             }
+        #if DEBUG
+        case .playground:
+            PlaygroundScreen(router: router)
+        #endif
         }
     }
 }
