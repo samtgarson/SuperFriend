@@ -28,7 +28,7 @@ enum AppRoutes: Routable {
         case .contactPicker:
             ContactPickerScreen(router: router)
         case .newFriend(let contact):
-            EditContactScreen.fromContact(contact: contact, onComplete: { router.dismissSelf() })
+            EditContactScreen(friend: nil, contact: contact, onComplete: { router.dismissSelf() })
         case .editFriend(let friend):
             if let contact = friend.contact {
                 EditContactScreen(

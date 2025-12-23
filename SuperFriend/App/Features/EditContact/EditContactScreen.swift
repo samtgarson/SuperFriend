@@ -13,20 +13,13 @@ struct EditContactScreen: View {
     @StateObject var viewModel: EditContactScreenViewModel
 
     init(
-        friend: Friend,
+        friend: Friend?,
         contact: ContactData,
         onComplete: @escaping () -> Void
     ) {
         self.onComplete = onComplete
+        let friend = friend ?? Friend.fromContactId(contact.identifier)
         self._viewModel = StateObject(wrappedValue: .init(contact: contact, friend: friend))
-    }
-
-    static func fromContact(
-        contact: ContactData,
-        onComplete: @escaping () -> Void
-    ) -> EditContactScreen {
-        let friend = Friend.fromContactId(contact.identifier)
-        return EditContactScreen(friend: friend, contact: contact, onComplete: onComplete)
     }
 
     var body: some View {
