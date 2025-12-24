@@ -28,7 +28,7 @@ class EditContactScreenViewModel: ObservableObject {
     var orgName: String { contact.organizationName }
 
     @MainActor
-    func complete() throws {
+    func save() throws {
         friend.period = selectedPeriod
         if friend.connectionEvents.isEmpty {
             let event = ConnectionEvent(friend: friend, tookPlaceAt: .now)

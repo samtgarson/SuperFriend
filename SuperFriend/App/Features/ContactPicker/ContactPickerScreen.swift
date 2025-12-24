@@ -35,10 +35,7 @@ struct ContactPickerScreen: View {
                 contact: contact,
                 onComplete: { navigation.path.removeLast() }
             ).onTapGesture {
-                navigation.activeSheet = .friendFlow(
-                    friend: nil,
-                    contactData: contact
-                )
+                navigation.activeSheet = .newFriend(contactData: contact)
             }
         }
     }

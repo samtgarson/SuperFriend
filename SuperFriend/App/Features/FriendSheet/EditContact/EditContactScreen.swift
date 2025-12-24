@@ -56,7 +56,7 @@ struct EditContactScreen: View {
             ToolbarItem(placement: .primaryAction) {
                 AsyncButton(
                     action: {
-                        try viewModel.complete()
+                        try viewModel.save()
                         onComplete()
                     },
                     label: { Text("Save") }
@@ -64,10 +64,9 @@ struct EditContactScreen: View {
             }
             if showCloseButton {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(action: onComplete) {
-                        Image(systemName: "xmark")
-                            .buttonStyle(.naked)
-                    }
+                    Button("Close", systemImage: "xmark", action: onComplete)
+                        .font(.caption)
+                        .buttonStyle(.naked)
                 }
             }
         }
@@ -79,8 +78,7 @@ struct EditContactScreen: View {
 }
 
 #Preview {
-    @Previewable @State var showBack = false
-    @Previewable @State var showRemove = true
+    @Previewable @State var showClose = false
     let contact = ContactData(
         givenName: "Sam",
         familyName: "Garson",
@@ -90,13 +88,15 @@ struct EditContactScreen: View {
     let friend = Friend(contactIdentifier: "123", period: .annually)
     let container = Database.testInstance().container
 
-    VStack {
-        EditContactScreen(
-            friend: friend,
-            contact: contact,
-            onComplete: { print("Completed") }
-        )
-        Toggle("Show Back", isOn: $showBack)
-        Toggle("Show Remove", isOn: $showRemove)
-    }.modelContainer(container)
+    NavigationStack {
+        VStack {
+            EditContactScreen(
+                friend: friend,
+                contact: contact,
+                onComplete: { print("Completed") },
+                showCloseButton: showClose
+            )
+            Toggle("Show Close", isOn: $showClose)
+        }.modelContainer(container)
+    }
 }

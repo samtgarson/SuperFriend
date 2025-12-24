@@ -12,13 +12,7 @@ import SwiftNavigation
 class AppNavigation {
     var path: [Path] = []
 
-    var activeSheet: ActiveSheet? {
-        didSet {
-            friendFlowPath = []
-        }
-    }
-
-    var friendFlowPath: [FriendFlowPath] = []
+    var activeSheet: ActiveSheet?
 
     @CasePathable
     enum Path: Hashable {
@@ -31,11 +25,13 @@ class AppNavigation {
 
     @CasePathable
     enum ActiveSheet: Hashable {
-        case friendFlow(friend: Friend?, contactData: ContactData)
+        case friendFlow(friend: Friend)
+        case newFriend(contactData: ContactData)
     }
 
-    @CasePathable
-    enum FriendFlowPath: Hashable {
-        case edit
+    func dismissSheet() {
+        activeSheet = nil
     }
 }
+
+extension AppNavigation: FriendSheetAppNavigation {}

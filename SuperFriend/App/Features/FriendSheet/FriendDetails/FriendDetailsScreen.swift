@@ -12,6 +12,9 @@ struct FriendDetailsScreen: View {
         case done
         case edit
         case remove
+        case message
+        case call
+        case contactMade
     }
 
     let friend: Friend
@@ -29,10 +32,17 @@ struct FriendDetailsScreen: View {
                 }
             }
 
-            HStack(spacing: .sm) {
-                Button("Message") { print("Message") }
-                    .buttonStyle(.secondary)
-                Button("Call") { print("Call") }
+            VStack(spacing: .sm) {
+                HStack(spacing: .sm) {
+                    Button("Message") { onAction(.message) }
+                        .with(icon: "message.fill")
+                        .buttonStyle(.secondary)
+                    Button("Call") { onAction(.call) }
+                        .with(icon: "phone.fill")
+                        .buttonStyle(.secondary)
+                }
+                Button("I made contact") { onAction(.contactMade) }
+                    .with(icon: "checkmark.circle.fill")
                     .buttonStyle(.secondary)
             }
         }

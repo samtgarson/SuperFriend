@@ -18,7 +18,7 @@ struct FriendListScreen: View {
                 onTapSettings: { navigation.path.append(.settings) },
                 onSecretGesture: {
                     #if DEBUG
-                    navigation.path.append(.playground)
+                        navigation.path.append(.playground)
                     #endif
                 },
                 searchText: $searchText.animation(.easeOut(duration: .transitionFast))
@@ -26,12 +26,7 @@ struct FriendListScreen: View {
             FriendList(
                 searchText: $searchText,
                 onSelect: { friend in
-                    if let contact = friend.contact {
-                        navigation.activeSheet = .friendFlow(
-                            friend: friend,
-                            contactData: contact
-                        )
-                    }
+                    navigation.activeSheet = .friendFlow(friend: friend)
                 },
                 onRecordConnection: { friend in
                     let event = ConnectionEvent(friend: friend)
