@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		891AB9BF2D3557F800F5DA82 /* Routing in Frameworks */ = {isa = PBXBuildFile; productRef = 891AB9BE2D3557F800F5DA82 /* Routing */; };
+		891E5D872EFB366B00BFBA82 /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 891E5D862EFB366B00BFBA82 /* SwiftUINavigation */; };
 		89658AB72D4837D3001EE0A1 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 89658AB62D4837D3001EE0A1 /* LICENSE */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				891AB9BF2D3557F800F5DA82 /* Routing in Frameworks */,
+				891E5D872EFB366B00BFBA82 /* SwiftUINavigation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,7 +87,7 @@
 			);
 			name = SuperFriend;
 			packageProductDependencies = (
-				891AB9BE2D3557F800F5DA82 /* Routing */,
+				891E5D862EFB366B00BFBA82 /* SwiftUINavigation */,
 			);
 			productName = SuperFriend;
 			productReference = 89E7B6492D32F4C200276535 /* SuperFriend.app */;
@@ -119,7 +119,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				89E7B65F2D32F97100276535 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
-				891AB9BD2D3557F800F5DA82 /* XCRemoteSwiftPackageReference "Routing" */,
+				891E5D852EFB366B00BFBA82 /* XCRemoteSwiftPackageReference "swift-navigation" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 89E7B64A2D32F4C200276535 /* Products */;
@@ -373,12 +373,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		891AB9BD2D3557F800F5DA82 /* XCRemoteSwiftPackageReference "Routing" */ = {
+		891E5D852EFB366B00BFBA82 /* XCRemoteSwiftPackageReference "swift-navigation" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/obvios/Routing.git";
+			repositoryURL = "https://github.com/pointfreeco/swift-navigation";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 2.6.0;
 			};
 		};
 		89E7B65F2D32F97100276535 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
@@ -392,10 +392,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		891AB9BE2D3557F800F5DA82 /* Routing */ = {
+		891E5D862EFB366B00BFBA82 /* SwiftUINavigation */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 891AB9BD2D3557F800F5DA82 /* XCRemoteSwiftPackageReference "Routing" */;
-			productName = Routing;
+			package = 891E5D852EFB366B00BFBA82 /* XCRemoteSwiftPackageReference "swift-navigation" */;
+			productName = SwiftUINavigation;
 		};
 		89E7B6602D32F9D800276535 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;

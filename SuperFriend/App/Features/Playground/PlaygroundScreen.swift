@@ -9,12 +9,8 @@
 import SwiftUI
 
 struct PlaygroundScreen: View {
-    @StateObject var router: AppRouter
+    var navigation: AppNavigation
     @State private var overrideColorScheme: ColorScheme?
-
-    init(router: AppRouter) {
-        _router = StateObject(wrappedValue: router)
-    }
 
     var body: some View {
         ScrollView {
@@ -100,7 +96,9 @@ struct PlaygroundScreen: View {
 }
 
 #Preview {
-    let router = AppRouter(isPresented: .constant(.none))
-    PlaygroundScreen(router: router)
+    let navigation = AppNavigation()
+    NavigationStack {
+        PlaygroundScreen(navigation: navigation)
+    }
 }
 #endif

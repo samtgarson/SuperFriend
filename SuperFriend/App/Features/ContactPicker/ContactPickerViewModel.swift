@@ -5,8 +5,8 @@
 //  Created by Sam Garson on 13/01/2025.
 //
 
-import SwiftUI
 import Contacts
+import SwiftUI
 
 class ContactPickerViewModel: ObservableObject {
     var repo: ContactDataRepository
@@ -35,7 +35,7 @@ class ContactPickerViewModel: ObservableObject {
         contacts.isEmpty && !searchText.isEmpty
     }
 
-    func openSettings () {
+    func openSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(url)
         }

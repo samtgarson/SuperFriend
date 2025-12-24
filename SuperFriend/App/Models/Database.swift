@@ -17,7 +17,8 @@ final class Database {
 
     @MainActor
     static func testInstance(with models: [any PersistentModel]) -> Database {
-        let database = testInstance(), context = database.container.mainContext
+        let database = testInstance()
+        let context = database.container.mainContext
         models.forEach { model in context.insert(model) }
         try? context.save()
         return database
@@ -40,8 +41,11 @@ final class Database {
                 for: schema,
                 configurations: configuration
             )
-            if useInMemoryStore { print("sqlite in memory") }
-            else { print("sqlite3 \"\(configuration.url.path(percentEncoded: false))\"") }
+            if useInMemoryStore {
+                print("sqlite in memory")
+            } else {
+                print("sqlite3 \"\(configuration.url.path(percentEncoded: false))\"")
+            }
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }

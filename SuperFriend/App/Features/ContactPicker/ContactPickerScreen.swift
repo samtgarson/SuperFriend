@@ -9,10 +9,10 @@ import SwiftUI
 
 struct ContactPickerScreen: View {
     @StateObject var viewModel: ContactPickerViewModel
-    @StateObject var router: AppRouter
+    var navigation: AppNavigation
 
-    init(router: AppRouter, repo: ContactDataRepository = ContactDataRepository()) {
-        _router = StateObject(wrappedValue: router)
+    init(navigation: AppNavigation, repo: ContactDataRepository = ContactDataRepository()) {
+        self.navigation = navigation
         _viewModel = StateObject(wrappedValue: ContactPickerViewModel(repo: repo))
     }
 
@@ -33,9 +33,12 @@ struct ContactPickerScreen: View {
         ForEach(viewModel.contacts, id: \.identifier) { contact in
             ContactPickerRow(
                 contact: contact,
-                onComplete: { router.pop() }
+                onComplete: { navigation.path.removeLast() }
             ).onTapGesture {
-                router.routeTo(.newFriend(contact), via: .sheet)
+                navigation.activeSheet = .friendFlow(
+                    friend: nil,
+                    contactData: contact
+                )
             }
         }
     }
@@ -57,19 +60,14 @@ struct ContactPickerScreen: View {
             Button("Adjust access") { viewModel.openSettings() }.buttonStyle(.naked)
         }.padding(.bottom)
     }
-
-    private var backButton: some View {
-        Button("Back", systemImage: "chevron.left") { router.pop() }
-            .font(.caption)
-            .buttonStyle(.naked)
-    }
 }
 
 #Preview {
-    @Previewable @State var router: AppRouter = .init(isPresented: .constant(.contactPicker))
-
-    ContactPickerScreen(
-        router: router,
-        repo: PreviewData.contactDataRepo
-    )
+    let navigation = AppNavigation()
+    NavigationStack(path: .constant([AppNavigation.Path.contactPicker])) {
+        ContactPickerScreen(
+            navigation: navigation,
+            repo: PreviewData.contactDataRepo
+        )
+    }
 }

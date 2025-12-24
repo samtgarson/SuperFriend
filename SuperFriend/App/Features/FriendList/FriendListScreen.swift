@@ -8,28 +8,31 @@
 import SwiftUI
 
 struct FriendListScreen: View {
-    @StateObject var router: AppRouter
+    var navigation: AppNavigation
     @State private var searchText: String = ""
-
-    init(router: AppRouter) {
-        _router = StateObject(wrappedValue: router)
-    }
 
     var body: some View {
         VStack(alignment: .leading) {
             TopNavBar(
-                onAdd: { router.routeTo(.contactPicker, via: .push) },
-                onTapSettings: {},
+                onAdd: { navigation.path.append(.contactPicker) },
+                onTapSettings: { navigation.path.append(.settings) },
                 onSecretGesture: {
                     #if DEBUG
-                    router.routeTo(.playground, via: .push)
+                    navigation.path.append(.playground)
                     #endif
                 },
                 searchText: $searchText.animation(.easeOut(duration: .transitionFast))
             )
             FriendList(
                 searchText: $searchText,
-                onSelect: { friend in router.routeTo(.editFriend(friend), via: .sheet) },
+                onSelect: { friend in
+                    if let contact = friend.contact {
+                        navigation.activeSheet = .friendFlow(
+                            friend: friend,
+                            contactData: contact
+                        )
+                    }
+                },
                 onRecordConnection: { friend in
                     let event = ConnectionEvent(friend: friend)
                     let repo = ModelRepository<ConnectionEvent>()
@@ -43,6 +46,9 @@ struct FriendListScreen: View {
 }
 
 #Preview {
-    AppRouterView()
-        .modelContainer(Database.testInstance(with: PreviewData.friends).container)
+    let navigation = AppNavigation()
+    NavigationStack(path: .constant(.init())) {
+        FriendListScreen(navigation: navigation)
+    }
+    .modelContainer(Database.testInstance(with: PreviewData.friends).container)
 }

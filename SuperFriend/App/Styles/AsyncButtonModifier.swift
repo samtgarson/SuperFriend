@@ -26,7 +26,7 @@ struct AsyncButton<Label>: View where Label: View {
     @State var loading = false
     var label: Label
     var action: () async throws -> Void
-    var role: ButtonRole? = nil
+    var role: ButtonRole?
 
     public init(action: @escaping () async throws -> Void, @ViewBuilder label: () -> Label, role: ButtonRole? = nil) {
         self.label = label()

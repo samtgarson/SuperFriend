@@ -10,16 +10,19 @@ import SwiftUI
 
 struct EditContactScreen: View {
     var onComplete: () -> Void
+    var showCloseButton: Bool = false
     @StateObject var viewModel: EditContactScreenViewModel
 
     init(
         friend: Friend?,
         contact: ContactData,
-        onComplete: @escaping () -> Void
+        onComplete: @escaping () -> Void,
+        showCloseButton: Bool = false
     ) {
         self.onComplete = onComplete
         let friend = friend ?? Friend.fromContactId(contact.identifier)
         self._viewModel = StateObject(wrappedValue: .init(contact: contact, friend: friend))
+        self.showCloseButton = showCloseButton
     }
 
     var body: some View {
@@ -37,13 +40,6 @@ struct EditContactScreen: View {
                 }
             }
             VStack(spacing: .sm) {
-                AsyncButton(
-                    action: {
-                        try viewModel.complete()
-                        onComplete()
-                    },
-                    label: { Text("Save") }
-                ).buttonStyle(.primary)
                 if viewModel.friend.persisted {
                     AsyncButton(
                         action: {
@@ -57,33 +53,42 @@ struct EditContactScreen: View {
             }
         }
         .toolbar {
-            backButton
+            ToolbarItem(placement: .primaryAction) {
+                AsyncButton(
+                    action: {
+                        try viewModel.complete()
+                        onComplete()
+                    },
+                    label: { Text("Save") }
+                ).buttonStyle(.glassProminent)
+            }
+            if showCloseButton {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(action: onComplete) {
+                        Image(systemName: "xmark")
+                            .buttonStyle(.naked)
+                    }
+                }
+            }
         }
     }
 
     private var avatar: some View {
         Avatar(from: viewModel.contact, size: 130)
     }
-
-    private var backButton: some View {
-        Button("Back", systemImage: "xmark", role: .close) { onComplete() }
-            .font(.caption)
-            .buttonStyle(.naked)
-    }
-
 }
 
 #Preview {
     @Previewable @State var showBack = false
     @Previewable @State var showRemove = true
-    var contact = ContactData(
+    let contact = ContactData(
         givenName: "Sam",
         familyName: "Garson",
         organizationName: "Progression",
         identifier: "123"
     )
-    var friend = Friend(contactIdentifier: "123", period: .annually)
-    var container = Database.testInstance().container
+    let friend = Friend(contactIdentifier: "123", period: .annually)
+    let container = Database.testInstance().container
 
     VStack {
         EditContactScreen(

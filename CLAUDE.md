@@ -61,18 +61,36 @@ sqlite3 "<path-from-console>"
 
 ### Navigation
 
-**Type-Safe Routing** (SuperFriend/App/Features/Router/):
-- Uses `Router<AppRoutes>` from the Routing package
-- `AppRoutes` enum defines all routes with associated values (e.g., `.editFriend(Friend)`)
-- Each route specifies `navigationType` (.push or .sheet)
-- Navigation is centralized and type-safe - use `router.routeTo()` and `router.dismiss()`
+**Type-Safe Navigation** (SuperFriend/App/Navigation/):
+- Uses `AppNavigation` with @Observable pattern from pointfreeco/swift-navigation
+- `path: [Path]` - Array for push navigation in NavigationStack (contactPicker, settings, playground)
+- `activeSheet: ActiveSheet?` - Optional for which sheet flow is presented
+- `friendFlowPath: [FriendFlowPath]` - Array for navigation within friend sheet
+- All routes defined in @CasePathable enums for compile-time type safety
+- Navigation is state-driven: mutate properties to trigger navigation
+- Automatic cleanup: `didSet` on `activeSheet` resets flow paths
+- Centralized at app level, passed to screens as `navigation`
+
+**Navigation Patterns:**
+- Push: `navigation.path.append(.routeName)`
+- Pop: `navigation.path.removeLast()` or use system back button
+- Present sheet: `navigation.activeSheet = .friendFlow(friend:contactData:)`
+- Dismiss sheet: `navigation.activeSheet = nil` (auto-resets friendFlowPath)
+- Navigate within sheet: `navigation.friendFlowPath.append(.edit)`
+- Pop within sheet: `navigation.friendFlowPath.removeLast()`
+
+**Sheet Architecture:**
+- Each sheet can have its own NavigationStack for sub-navigation
+- Friend flow: New friends start at EditContactScreen (root), existing friends start at FriendDetailsScreen (can navigate to edit)
+- Future flows can add their own path arrays (e.g., `settingsFlowPath`)
 
 ### UI Architecture
 
 **Feature Structure** (SuperFriend/App/Features/):
-- Each feature has its own directory (e.g., `FriendList/`, `EditContact/`)
+- Each feature has its own directory (e.g., `FriendList/`, `EditContact/`, `FriendDetails/`, `Settings/`)
 - Typical structure: `*Screen.swift` (view), `*ViewModel.swift` (business logic)
 - ViewModels use `@Published` properties and repository pattern for data access
+- Screens receive `navigation: AppNavigation` for navigation capability
 
 **Design System** (SuperFriend/App/Styles/):
 - `Tokens.swift` - Design tokens as CGFloat/Double extensions:
@@ -107,12 +125,13 @@ sqlite3 "<path-from-console>"
 - Use `@Transient` for non-persisted properties (like repositories)
 - All database operations via `ModelRepository` must be `@MainActor`
 - Use `#Predicate` for type-safe queries
+- Models used in navigation must conform to `Hashable`
 
-### Router Pattern
-- Screens receive `router: AppRouter` and store as `@StateObject`
-- Navigate with `router.routeTo(.routeName)` or `router.dismiss()`
-- Routes with associated values pass data through enum cases
-- ViewModels take completion closures (e.g., `onComplete: { router.dismiss() }`)
+### Navigation Pattern
+- Navigation model passed to screens as `navigation: AppNavigation` parameter
+- State-driven navigation: mutate `path`, `activeSheet`, or `friendFlowPath` properties
+- Routes with associated values pass data through enum cases (e.g., `.friendFlow(friend:contactData:)`)
+- ViewModels take completion closures (e.g., `onComplete: { navigation.activeSheet = nil }`)
 
 ### Repository Injection
 - ViewModels accept repository via init with default value: `repo: ModelRepository<Friend> = ModelRepository()`

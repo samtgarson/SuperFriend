@@ -79,3 +79,13 @@ final class Friend: Identifiable {
         })
     }
 }
+
+extension Friend: Hashable {
+    static func == (lhs: Friend, rhs: Friend) -> Bool {
+        lhs.contactIdentifier == rhs.contactIdentifier
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(contactIdentifier)
+    }
+}
