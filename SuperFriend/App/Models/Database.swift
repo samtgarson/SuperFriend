@@ -25,7 +25,8 @@ final class Database {
     }
 
     static let models: [any PersistentModel.Type] = [
-        Friend.self
+        Friend.self,
+        ConnectionEvent.self
     ]
 
     let container: ModelContainer

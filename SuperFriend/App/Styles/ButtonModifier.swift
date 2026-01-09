@@ -14,7 +14,11 @@ struct ButtonIconEnvironmentKey: EnvironmentKey {
     static var defaultValue: String?
 }
 
-struct ButtonIsloadingEnvironmentKey: EnvironmentKey {
+struct ButtonIsLoadingEnvironmentKey: EnvironmentKey {
+    static var defaultValue: Bool = false
+}
+
+struct ButtonWideEnvironmentKey: EnvironmentKey {
     static var defaultValue: Bool = false
 }
 
@@ -25,24 +29,31 @@ extension EnvironmentValues {
     }
 
     public var buttonIsLoading: Bool {
-        get { self[ButtonIsloadingEnvironmentKey.self] }
-        set { self[ButtonIsloadingEnvironmentKey.self] = newValue }
+        get { self[ButtonIsLoadingEnvironmentKey.self] }
+        set { self[ButtonIsLoadingEnvironmentKey.self] = newValue }
+    }
+
+    public var buttonIsWide: Bool {
+        get { self[ButtonWideEnvironmentKey.self] }
+        set { self[ButtonWideEnvironmentKey.self] = newValue }
     }
 }
 
 struct ButtonModifier: ViewModifier {
     var icon: String?
     var loading: Bool = false
+    var wide: Bool = false
 
     func body(content: Content) -> some View {
         content
             .environment(\.buttonIcon, icon)
             .environment(\.buttonIsLoading, loading)
+            .environment(\.buttonIsWide, wide)
     }
 }
 
 extension Button {
-    func with(icon: String? = nil, loading: Bool = false) -> some View {
-        modifier(ButtonModifier(icon: icon, loading: loading))
+    func with(icon: String? = nil, loading: Bool = false, wide: Bool = false) -> some View {
+        modifier(ButtonModifier(icon: icon, loading: loading, wide: wide))
     }
 }

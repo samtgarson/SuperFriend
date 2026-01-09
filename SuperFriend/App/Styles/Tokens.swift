@@ -31,7 +31,7 @@ extension Double {
     // MARK: Opacities
     static var opacityFaded: Double = 0.2
     static var opacitySlightlyFaded: Double = 0.65
-    static var opacityVeryFaded: Double = 0.04
+    static var opacityVeryFaded: Double = 0.1
     static var opacityBodyText: Double = 0.8
 }
 

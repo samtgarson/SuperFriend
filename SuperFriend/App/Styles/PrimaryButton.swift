@@ -13,14 +13,17 @@ struct PrimaryButtonStyle: ButtonStyle {
     @Environment(\.isEnabled) var isEnabled
     @Environment(\.buttonIsLoading) var isLoading
     @Environment(\.buttonIcon) var icon
+    @Environment(\.buttonIsWide) var wide
 
     @State private var showLoading: Bool = false
 
     func makeBody(configuration: Configuration) -> some View {
         HStack(spacing: .xs) {
+            if wide { Spacer() }
             if showLoading { ProgressView().controlSize(.small) } else
             if let icon = icon { Image(systemName: icon) }
             configuration.label
+            if wide { Spacer() }
         }
         .rounded(style)
         .opacity(opacity(isPressed: configuration.isPressed))
@@ -32,10 +35,10 @@ struct PrimaryButtonStyle: ButtonStyle {
 
     private func opacity(isPressed: Bool) -> Double {
         guard isEnabled && !showLoading else {
-            return .opacityFaded
+            return .opacitySlightlyFaded
         }
 
-        return isPressed ? .opacitySlightlyFaded : 1
+        return isPressed ? .opacityFaded : 1
     }
 }
 
@@ -80,6 +83,12 @@ extension ButtonStyle where Self == PrimaryButtonStyle {
                     Text("Small")
                 })
                 .controlSize(.small)
+                .buttonStyle(.primary)
+
+                Button(action: {}, label: {
+                    Text("Wiiiiide")
+                })
+                .with(wide: true)
                 .buttonStyle(.primary)
 
             }.frame(width: 300, height: 500)

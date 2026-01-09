@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AppRouter: View {
     @State private var navigation = AppNavigation()
+    private let intentHandler = FriendSheetIntentHandler()
 
     var body: some View {
         NavigationStack(path: $navigation.path) {
@@ -30,16 +31,30 @@ struct AppRouter: View {
             switch activeSheet {
             case .newFriend(let contactData):
                 NavigationStack {
-                    EditContactScreen(
-                        friend: nil,
+                    NewFriendSheet(
                         contact: contactData,
-                        onComplete: { navigation.dismissSheet() },
-                        showCloseButton: true
+                        onIntent: { intent in
+                            if let effect = try? intentHandler.handle(intent, contact: contactData) {
+                                intentHandler.execute(effect, navigation: navigation)
+                            }
+                        }
                     )
                 }
-            case .friendFlow(let friend):
-                FriendSheetRouter(friend: friend, navigator: navigation)
 
+            case .friendDetails(let friend):
+                if let contact = friend.contact {
+                    NavigationStack {
+                        FriendDetailsScreen(
+                            friend: friend,
+                            contact: contact,
+                            onIntent: { intent in
+                                if let effect = try? intentHandler.handle(intent, friend: friend) {
+                                    intentHandler.execute(effect, navigation: navigation)
+                                }
+                            }
+                        )
+                    }
+                }
             }
         }
     }

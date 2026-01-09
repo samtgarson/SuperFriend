@@ -26,7 +26,7 @@ struct FriendListScreen: View {
             FriendList(
                 searchText: $searchText,
                 onSelect: { friend in
-                    navigation.activeSheet = .friendFlow(friend: friend)
+                    navigation.activeSheet = .friendDetails(friend: friend)
                 },
                 onRecordConnection: { friend in
                     let event = ConnectionEvent(friend: friend)

@@ -25,7 +25,7 @@ class AppNavigation {
 
     @CasePathable
     enum ActiveSheet: Hashable {
-        case friendFlow(friend: Friend)
+        case friendDetails(friend: Friend)
         case newFriend(contactData: ContactData)
     }
 
@@ -33,5 +33,3 @@ class AppNavigation {
         activeSheet = nil
     }
 }
-
-extension AppNavigation: FriendSheetAppNavigation {}

@@ -8,55 +8,63 @@
 import SwiftUI
 
 struct FriendDetailsScreen: View {
-    enum FriendDetailScreenAction {
-        case done
-        case edit
-        case remove
-        case message
-        case call
-        case contactMade
-    }
-
     let friend: Friend
     let contact: ContactData
-    var onAction: (FriendDetailScreenAction) -> Void
+    let onIntent: (FriendDetailsIntent) -> Void
+
+    @State private var selectedPeriod: Period
+    @State private var historyExpanded = false
+
+    init(friend: Friend, contact: ContactData, onIntent: @escaping (FriendDetailsIntent) -> Void) {
+        self.friend = friend
+        self.contact = contact
+        self.onIntent = onIntent
+        self._selectedPeriod = State(initialValue: friend.period)
+    }
 
     var body: some View {
         VStack(alignment: .center, spacing: .md) {
-            Avatar(from: contact, size: 130)
-
-            VStack(spacing: .xs) {
-                Text(contact.fullName).bold().font(.title)
-                if !contact.organizationName.isEmpty {
-                    Text(contact.organizationName).opacity(.opacityBodyText)
+            FriendProfile(contact: contact, period: $selectedPeriod)
+                .onChange(of: selectedPeriod) { _, newValue in
+                    onIntent(.updatePeriod(newValue))
                 }
-            }
 
             VStack(spacing: .sm) {
                 HStack(spacing: .sm) {
-                    Button("Message") { onAction(.message) }
-                        .with(icon: "message.fill")
+                    Button("Message") { onIntent(.initiateMessage) }
+                        .with(icon: "message.fill", wide: true)
                         .buttonStyle(.secondary)
-                    Button("Call") { onAction(.call) }
-                        .with(icon: "phone.fill")
+                    Button("Call") { onIntent(.initiateCall) }
+                        .with(icon: "phone.fill", wide: true)
                         .buttonStyle(.secondary)
                 }
-                Button("I made contact") { onAction(.contactMade) }
-                    .with(icon: "checkmark.circle.fill")
-                    .buttonStyle(.secondary)
+                Menu {
+                    Section("How did you make contact?") {
+                        ForEach(ConnectionEvent.ConnectionEventType.allCases) { type in
+                            Button(type.label) {
+                                onIntent(.recordConnection(type))
+                            }
+                        }
+                    }
+                } label: {
+                    Button("I made contact") {}
+                        .with(icon: "checkmark.circle.fill", wide: true)
+                        .buttonStyle(.secondary)
+                        .foregroundStyle(.foreground)
+                }
             }
-        }
+
+            Spacer()
+       }
+        .padding()
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button("Close", systemImage: "xmark") { onAction(.done) }
-                .font(.caption)
-                .buttonStyle(.naked)
+                Button("Close", systemImage: "xmark") { onIntent(.dismiss) }
+                    .font(.caption)
+                    .buttonStyle(.naked)
             }
             ToolbarItem(placement: .secondaryAction) {
-                Button("Edit", systemImage: "pencil") { onAction(.edit) }
-            }
-            ToolbarItem(placement: .secondaryAction) {
-                Button("Remove", systemImage: "trash", role: .destructive) { onAction(.remove) }
+                Button("Remove", systemImage: "trash", role: .destructive) { onIntent(.delete) }
             }
         }
         .presentationDetents([.medium])
@@ -64,19 +72,14 @@ struct FriendDetailsScreen: View {
 }
 
 #Preview {
-    let friend = Friend(contactIdentifier: "123", period: .monthly)
-    let contact = ContactData(
-        givenName: "Alice",
-        familyName: "Smith",
-        organizationName: "Acme Inc",
-        identifier: "123"
-    )
+    let friend = PreviewData.friends[0]
+    let contact = friend.contact!
 
     NavigationStack {
         FriendDetailsScreen(
             friend: friend,
             contact: contact,
-            onAction: { action in print(action) }
+            onIntent: { intent in print(intent) }
         )
     }
 }

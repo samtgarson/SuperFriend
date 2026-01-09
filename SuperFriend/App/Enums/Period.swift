@@ -15,6 +15,7 @@ enum Period: String, CaseIterable, Identifiable, Codable {
     case annually
 
     var id: String { rawValue }
+    var index: Int { Self.allCases.firstIndex(of: self)! }
 
     var label: String {
         switch self {
@@ -54,3 +55,4 @@ enum Period: String, CaseIterable, Identifiable, Codable {
         }
     }
 }
+

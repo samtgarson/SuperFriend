@@ -11,8 +11,9 @@ struct Box<Content: View>: View {
     var style: RoundedStyle = .filled
     let content: Content
 
-    init(@ViewBuilder _ content: () -> Content) {
+    init(style: RoundedStyle = .filled, @ViewBuilder _ content: () -> Content) {
         self.content = content()
+        self.style = style
     }
 
     var body: some View {
@@ -27,7 +28,7 @@ struct Box<Content: View>: View {
         Group {
             switch style {
             case .filled:
-                RoundedRectangle(cornerRadius: .cornerRadiusSmall).fill(.foreground.opacity(.opacityVeryFaded))
+                RoundedRectangle(cornerRadius: .cornerRadius).fill(.foreground.opacity(.opacityVeryFaded))
             case .outlined:
                 RoundedRectangle(cornerRadius: .cornerRadius)
                     .fill(.background).stroke(.foreground.opacity(.opacityFaded), lineWidth: 1)
@@ -47,7 +48,7 @@ and be aligned to the goals of the sprint. This session should ideally not take 
 """).opacity(.opacityBodyText)
         }
 
-        Box {
+        Box(style: .outlined) {
             Text("Foo bar")
         }
     }.padding()

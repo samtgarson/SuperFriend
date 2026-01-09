@@ -13,7 +13,8 @@ class ContactDataRepository: ObservableObject {
         CNContactGivenNameKey,
         CNContactFamilyNameKey,
         CNContactOrganizationNameKey,
-        CNContactImageDataKey
+        CNContactImageDataKey,
+        CNContactPhoneNumbersKey
     ] as [CNKeyDescriptor]
 
     static func sortComparator(_ lhs: ContactData, _ rhs: ContactData) -> Bool {
@@ -74,7 +75,8 @@ class ContactDataRepository: ObservableObject {
             familyName: contact.familyName,
             imageData: contact.imageData,
             organizationName: contact.organizationName,
-            identifier: contact.identifier
+            identifier: contact.identifier,
+            phoneNumber: contact.phoneNumbers.first?.value.stringValue
         )
     }
 }
